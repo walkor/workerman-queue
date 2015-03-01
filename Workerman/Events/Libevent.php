@@ -121,11 +121,11 @@ class Libevent implements EventInterface
      */
     public function del($fd ,$flag)
     {
-        $fd_key = (int)$fd;
         switch($flag)
         {
             case self::EV_READ:
             case self::EV_WRITE:
+                $fd_key = (int)$fd;
                 if(isset($this->_allEvents[$fd_key][$flag]))
                 {
                     event_del($this->_allEvents[$fd_key][$flag]);
@@ -137,6 +137,7 @@ class Libevent implements EventInterface
                 }
                 break;
             case  self::EV_SIGNAL:
+                $fd_key = (int)$fd;
                 if(isset($this->_eventSignal[$fd_key]))
                 {
                     event_del($this->_eventSignal[$fd_key]);
@@ -145,10 +146,11 @@ class Libevent implements EventInterface
                 break;
             case self::EV_TIMER:
             case self::EV_TIMER_ONCE:
-                if(isset($this->_eventTimer[$fd_key]))
+                // 这里 fd 为timerid 
+                if(isset($this->_eventTimer[$fd]))
                 {
-                    event_del($this->_eventTimer[$fd_key][2]);
-                    unset($this->_eventTimer[$fd_key]);
+                    event_del($this->_eventTimer[$fd][2]);
+                    unset($this->_eventTimer[$fd]);
                 }
                 break;
         }

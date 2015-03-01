@@ -109,17 +109,17 @@ $consumer->onWorkerStart = function($consumer)
                         {
                             echo "$class_name::$method not exist\n";
                         }
-                        }
-                        else
-                        {
-                            echo "$class_name not exist\n";
-                        }
                     }
-                    else 
+                    else
                     {
-                        echo "unknow message\n";
+                        echo "$class_name not exist\n";
                     }
                 }
+                else 
+                {
+                    echo "unknow message\n";
+                }
             }
+        }
     });
 };
