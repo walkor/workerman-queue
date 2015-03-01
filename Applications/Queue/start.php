@@ -3,13 +3,15 @@ use Workerman\Worker;
 
 /*******************************************************************
  * 基于Worker实现的一个简单的消息队列服务
- * 服务两组进程，
+ * 服务分为两组进程，
  * 一组监听端口并把发来的数据放到sysv消息队列中
  * 另外一组进程为消费者，负责从队列中读取数据并处理
  * 
  * 注意：
  * 使用的是系统自带的 sysv 队列，即使队列服务重启数据也不会丢失
  * 但服务器重启后数据会丢失
+ * 系统默认sysv队列容量比较小，可以根据需要配置Linux内核参数，
+ * 增大队列容量
  *******************************************************************/
 
 // 队列的id。为了避免混淆，可以和监听的端口相同
@@ -74,7 +76,7 @@ $consumer->onWorkerStart = function($consumer)
             $maxsize = 65535;
             // 从队列中获取消息 @see http://php.net/manual/zh/function.msg-receive.php
             msg_receive($consumer->queue , $desiredmsgtype , $msgtype , $maxsize , $message);
-             // 假设消息数据为json，格式为{"class":"class_name", "method":"method_name", "args":"args_array"}
+             // 假设消息数据为json，格式类似{"class":"class_name", "method":"method_name", "args":[]}
              $message = json_decode($message, true);
              // 格式如果是正确的，则尝试执行对应的类方法
              if(isset($message['class']) && isset($message['method']) && isset($message['args']))
