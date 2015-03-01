@@ -66,7 +66,7 @@ $consumer->count = 32;
  */
 $consumer->onWorkerStart = function($consumer)
 {
-    \Workerman\Lib\Timer::add(0.1, function() use ($consumer){
+    \Workerman\Lib\Timer::add(0.5, function() use ($consumer){
         if(extension_loaded('sysvmsg'))
         {
             // 获得队列资源
