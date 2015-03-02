@@ -66,11 +66,11 @@ $consumer->count = 32;
  */
 $consumer->onWorkerStart = function($consumer)
 {
+    // 获得队列资源
+    $consumer->queue = msg_get_queue($consumer->queueId);
     \Workerman\Lib\Timer::add(0.5, function() use ($consumer){
         if(extension_loaded('sysvmsg'))
         {
-            // 获得队列资源
-            $consumer->queue = msg_get_queue($consumer->queueId);
             // 循环取数据
             while(1)
             {
