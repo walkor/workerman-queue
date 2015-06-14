@@ -37,16 +37,17 @@ $msg_recver = new Worker('Text://0.0.0.0:1236');
 // 向哪个队列放数据
 $msg_recver->queueId = $QUEUE_ID;
 
+if(!extension_loaded('sysvmsg'))
+{
+    echo "Please install sysvmsg extension.\n";
+    exit;
+}
+
 /**
  * 进程启动时，初始化sysv消息队列
  */
 $msg_recver->onWorkerStart = function($msg_recver)
 {
-    if(!extension_loaded('sysvmsg'))
-    {
-        echo "Please install sysvmsg extension.\n";
-        return;
-    }
     $msg_recver->queue = msg_get_queue($msg_recver->queueId);
 };
 
