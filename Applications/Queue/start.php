@@ -95,7 +95,7 @@ $consumer->onWorkerStart = function($consumer)
                 $message = '';
                 $maxsize = 65535;
                 // 从队列中获取消息 @see http://php.net/manual/zh/function.msg-receive.php
-                msg_receive($consumer->queue , $desiredmsgtype , $msgtype , $maxsize , $message, true, MSG_IPC_NOWAIT);
+                @msg_receive($consumer->queue , $desiredmsgtype , $msgtype , $maxsize , $message, true, MSG_IPC_NOWAIT);
                 if(!$message)
                 {
                     return;
