@@ -12,7 +12,7 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 // 创建于队列服务的socket连接
-$client = stream_socket_client("tcp://0.0.0.0:1236", $err_no, $err_msg, 5);
+$client = stream_socket_client("tcp://127.0.0.1:1236", $err_no, $err_msg, 5);
 if(!$client)
 {
     exit($err_msg);
