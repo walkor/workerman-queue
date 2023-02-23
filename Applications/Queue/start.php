@@ -88,8 +88,6 @@ $consumer->onWorkerStart = function($consumer)
         if(extension_loaded('sysvmsg'))
         {
             // 循环取数据
-            while(1)
-            {
                 $desiredmsgtype = 1;
                 $msgtype = 0;
                 $message = '';
@@ -135,7 +133,6 @@ $consumer->onWorkerStart = function($consumer)
                 {
                     echo "unknow message\n";
                 }
-            }
         }
     });
 };
